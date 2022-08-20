@@ -2,6 +2,7 @@ import java.io.*;
 import java.sql.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Scanner;
 
 public class BoggleSolver {
@@ -9,7 +10,7 @@ public class BoggleSolver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
         int boardSize = 4;
 //        String filename = getPath(args[0]);
-        String database = "\\data\\dictionary_big.db";
+        String database = "\\data\\dictionary.txt";
 //        String input = retrieveBoard(filename);
         BoggleBoard board = new BoggleBoard(boardSize);
         System.out.println(board);
@@ -22,6 +23,10 @@ public class BoggleSolver {
         long endTime   = System.nanoTime();
         long totalTime = (endTime - startTime) / 1000;
         NumberFormat formatter = new DecimalFormat("#0.00");
+        List<WordPath> results = searcher.getFoundWords();
+        for (WordPath result : results) {
+            System.out.println(result);
+        }
         System.out.println("Words Found: " + searcher.numWordsFound());
         System.out.println("Total Score: " + searcher.getScore());
         System.out.println("Time elapsed (ms): " + formatter.format(totalTime / 1000d));
@@ -59,17 +64,28 @@ public class BoggleSolver {
     public static TrieDictionary populateDictionary(String databaseName) throws IOException, ClassNotFoundException, SQLException {
         TrieDictionary dictionary = new TrieDictionary();
         String database = getPath(databaseName);
-        Connection con = BoggleSolver.loadDictionary(database);
-        if (con.isClosed()) {
-            System.out.println("database was closed?");
+        if (database.contains("db")) {
+            Connection con = BoggleSolver.loadDictionary(database);
+            if (con.isClosed()) {
+                System.out.println("database was closed?");
+            }
+            Statement stmt = con.createStatement();
+            String query = "SELECT word FROM words";
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                dictionary.addWord(resultSet.getString(1));
+            }
+            con.close();
         }
-        Statement stmt = con.createStatement();
-        String query = "SELECT word FROM words";
-        ResultSet resultSet = stmt.executeQuery(query);
-        while (resultSet.next()) {
-            dictionary.addWord(resultSet.getString(1));
+        else {
+            File file = new File(database);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String word = scanner.nextLine();
+                dictionary.addWord(word);
+            }
         }
-        con.close();
+
         return dictionary;
     }
 

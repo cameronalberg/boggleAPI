@@ -1,10 +1,8 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BoggleTraversal {
     private TrieDictionary dictionary;
-    private Set<String> foundWords;
+    private Set<WordPath> foundWords;
     private BoggleBoard board;
     private int score;
 
@@ -17,6 +15,12 @@ public class BoggleTraversal {
 
     public int numWordsFound() {
         return this.foundWords.size();
+    }
+
+    public List<WordPath> getFoundWords() {
+        List<WordPath> list = new ArrayList<>(this.foundWords);
+        Collections.sort(list);
+        return list;
     }
 
     public int getScore() {
@@ -62,10 +66,9 @@ public class BoggleTraversal {
         wordpath.addToPath(die);
         String word = wordpath.getWord();
         if (this.dictionary.isWord(word)) {
-            if (!this.foundWords.contains(word)) {
-                this.foundWords.add(word);
+            if (!this.foundWords.contains(wordpath)) {
+                this.foundWords.add(wordpath);
                 updateScore(word.length());
-                System.out.println(wordpath);
             }
         }
 
