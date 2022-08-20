@@ -38,12 +38,18 @@ public class WordPath implements Comparable<WordPath>{
             return true;
         }
 
+
         if (!(o instanceof WordPath)) {
             return false;
         }
 
         WordPath temp = (WordPath) o;
         return Objects.equals(this.getWord(), temp.getWord());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.getWord());
     }
 
     @Override

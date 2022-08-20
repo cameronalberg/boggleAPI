@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 public class BoggleTraversal {
@@ -5,12 +7,14 @@ public class BoggleTraversal {
     private Set<WordPath> foundWords;
     private BoggleBoard board;
     private int score;
+    private long lastSearchTime;
 
     public BoggleTraversal(TrieDictionary dictionary, BoggleBoard board) {
         this.dictionary = dictionary;
         this.board = board;
         this.foundWords = new HashSet<>();
-        int score = 0;
+        this.score = 0;
+        this.lastSearchTime = 0;
     }
 
     public int numWordsFound() {
@@ -26,17 +30,27 @@ public class BoggleTraversal {
     public int getScore() {
         return this.score;
     }
+
     public void traverse() {
+        this.lastSearchTime = 0;
+        long startTime = System.nanoTime();
         ArrayList<BoggleDie> dice = board.getDice();
         for (BoggleDie die : dice) {
             traverse(die);
         }
+        long endTime   = System.nanoTime();
+        this.lastSearchTime = (endTime - startTime) / 1000;
     }
 
     private void traverse(BoggleDie die) {
         Set<BoggleDie> visited = new HashSet<>();
         WordPath wordpath = new WordPath();
         DFS(die, visited, wordpath);
+    }
+
+    public String getLastSearchTime() {
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        return formatter.format(this.lastSearchTime / 1000d);
     }
 
     private void updateScore(int length) {

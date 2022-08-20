@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class BoggleBoard {
@@ -26,6 +27,7 @@ public class BoggleBoard {
     private ArrayList<BoggleDie> dice;
     private int numDice;
     private int grid[][];
+    private BoggleTraversal searcher;
 
     public BoggleBoard(int boardSize) {
         this.boardSize = boardSize;
@@ -49,6 +51,7 @@ public class BoggleBoard {
     }
 
     public void shuffleBoard() {
+        this.searcher = null;
         Collections.shuffle(this.dice, new Random(123091823));
         int i = 0;
         for (BoggleDie die : this.dice) {
@@ -85,9 +88,7 @@ public class BoggleBoard {
 
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (!inBounds(y+i,x+j)) {
-                    continue;
-                } else {
+                if (inBounds(y+i,x+j)) {
                     results.add(this.grid[i+y][j+x]);
                 }
             }
@@ -120,6 +121,35 @@ public class BoggleBoard {
         return new ArrayList<>(this.dice);
     }
 
+    public void printBoard() {
+        StringBuilder linebreak = new StringBuilder();
+        for (int i = 0; i < boardSize; i++) {
+            linebreak.append("-");
+        }
+        System.out.println("\n" + linebreak);
+        System.out.println(this);
+        System.out.println(linebreak + "\n");
+    }
+
+    public void search(TrieDictionary dictionary) {
+        this.searcher = new BoggleTraversal(dictionary, this);
+        this.searcher.traverse();
+    }
+
+    public void printStats() {
+        System.out.println("Time elapsed (ms): " + this.searcher.getLastSearchTime());
+        System.out.println("Words Found: " + this.searcher.numWordsFound());
+        System.out.println("Total Score: " + this.searcher.getScore());
+        System.out.println("");
+    }
+
+    public void printWords() {
+        List<WordPath> results = this.searcher.getFoundWords();
+        for (WordPath result : results) {
+            System.out.println(result);
+        }
+    }
+
     @Override
     public String toString() {
         String output = "";
@@ -135,7 +165,9 @@ public class BoggleBoard {
                     output += "-";
                 }
             }
-            output += "\n";
+            if (i < this.boardSize - 1) {
+                output += "\n";
+            }
         }
         return output;
     }

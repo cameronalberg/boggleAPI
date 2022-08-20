@@ -8,28 +8,45 @@ import java.util.Scanner;
 public class BoggleSolver {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-        int boardSize = 4;
-//        String filename = getPath(args[0]);
-        String database = "\\data\\dictionary.txt";
-//        String input = retrieveBoard(filename);
-        BoggleBoard board = new BoggleBoard(boardSize);
-        System.out.println(board);
-        TrieDictionary dictionary = populateDictionary(database);
+        String dictionaryFile;
+        int boardSize;
+        TrieDictionary dictionary;
+
+        // Load dictionary file
+        try  {
+            dictionaryFile = args[0];
+            dictionary = populateDictionary(dictionaryFile);
+            System.out.println("Loaded provided dictionary: " + dictionaryFile);
+        } catch (Exception e) {
+            System.out.println("Using default dictionary");
+            dictionaryFile = "\\data\\dictionary_scrabble.txt";
+            dictionary = populateDictionary(dictionaryFile);
+        }
         int words = dictionary.wordCount();
         System.out.println("Number of words in dictionary: " + words);
-        BoggleTraversal searcher = new BoggleTraversal(dictionary, board);
-        long startTime = System.nanoTime();
-        searcher.traverse();
-        long endTime   = System.nanoTime();
-        long totalTime = (endTime - startTime) / 1000;
-        NumberFormat formatter = new DecimalFormat("#0.00");
-        List<WordPath> results = searcher.getFoundWords();
-        for (WordPath result : results) {
-            System.out.println(result);
+
+        //Get Board Size
+        try  {
+            boardSize = Integer.parseInt(args[1]);
+            System.out.println("Generating " + boardSize +" x "+ boardSize +
+                    " board");
+        } catch (Exception e) {
+            System.out.println("Using default board (4x4)");
+            boardSize = 4;
         }
-        System.out.println("Words Found: " + searcher.numWordsFound());
-        System.out.println("Total Score: " + searcher.getScore());
-        System.out.println("Time elapsed (ms): " + formatter.format(totalTime / 1000d));
+
+        BoggleBoard board = new BoggleBoard(boardSize);
+        board.printBoard();
+
+        //Find all words and time results
+
+
+        board.search(dictionary);
+
+        board.printStats();
+
+        board.printWords();
+
     }
 
     public static String getPath(String input) throws IOException {

@@ -1,4 +1,6 @@
 
+import org.sqlite.util.StringUtils;
+
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -19,11 +21,15 @@ public class TrieDictionary implements Dictionary{
     }
 
     @Override
-    public void addWord(String word) {
-        if (word.length() < minWordLength) {
+    public void addWord(String input) {
+        if (input.length() < minWordLength) {
             return;
         }
 
+        if (!input.matches("[a-zA-Z]+")) {
+            return;
+        }
+        String word = input.toLowerCase();
         TrieNode current = this.root;
         int length = word.length();
 
