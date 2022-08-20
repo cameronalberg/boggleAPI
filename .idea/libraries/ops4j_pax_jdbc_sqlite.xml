@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="ops4j.pax.jdbc.sqlite" type="repository">
+    <properties maven-id="org.ops4j.pax.jdbc:pax-jdbc-sqlite:1.5.3" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/ops4j/pax/jdbc/pax-jdbc-sqlite/1.5.3/pax-jdbc-sqlite-1.5.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/ops4j/pax/jdbc/pax-jdbc-common/1.5.3/pax-jdbc-common-1.5.3.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.36.0.3/sqlite-jdbc-3.36.0.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
