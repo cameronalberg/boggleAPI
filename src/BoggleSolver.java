@@ -1,5 +1,7 @@
 import java.io.*;
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class BoggleSolver {
@@ -14,9 +16,15 @@ public class BoggleSolver {
         TrieDictionary dictionary = populateDictionary(database);
         int words = dictionary.wordCount();
         System.out.println("Number of words in dictionary: " + words);
-
         BoggleTraversal searcher = new BoggleTraversal(dictionary, board);
+        long startTime = System.nanoTime();
         searcher.traverse();
+        long endTime   = System.nanoTime();
+        long totalTime = (endTime - startTime) / 1000;
+        NumberFormat formatter = new DecimalFormat("#0.00");
+        System.out.println("Words Found: " + searcher.numWordsFound());
+        System.out.println("Total Score: " + searcher.getScore());
+        System.out.println("Time elapsed (ms): " + formatter.format(totalTime / 1000d));
     }
 
     public static String getPath(String input) throws IOException {
