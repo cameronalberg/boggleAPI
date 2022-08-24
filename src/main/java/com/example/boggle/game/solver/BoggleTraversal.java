@@ -1,3 +1,9 @@
+package com.example.boggle.game.solver;
+
+import com.example.boggle.game.data.TrieDictionary;
+import com.example.boggle.game.board.BoggleBoard;
+import com.example.boggle.game.board.BoggleDie;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
@@ -38,7 +44,7 @@ public class BoggleTraversal {
         for (BoggleDie die : dice) {
             traverse(die);
         }
-        long endTime   = System.nanoTime();
+        long endTime = System.nanoTime();
         this.lastSearchTime = (endTime - startTime) / 1000;
     }
 
@@ -56,7 +62,7 @@ public class BoggleTraversal {
     private void updateScore(int length) {
         int value = 11;
 
-        switch(length) {
+        switch (length) {
             case 3:
             case 4:
                 value = 1;
@@ -75,7 +81,7 @@ public class BoggleTraversal {
         this.score += value;
     }
 
-    private void DFS(BoggleDie die, Set<BoggleDie> visited, WordPath wordpath){
+    private void DFS(BoggleDie die, Set<BoggleDie> visited, WordPath wordpath) {
         visited.add(die);
         wordpath.addToPath(die);
         String word = wordpath.getWord();

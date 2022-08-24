@@ -1,7 +1,11 @@
+package com.example.boggle.game.solver;
+
+import com.example.boggle.game.board.BoggleDie;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class WordPath implements Comparable<WordPath>{
+public class WordPath implements Comparable<WordPath> {
     String word;
     ArrayList<Integer> path;
 
@@ -9,6 +13,7 @@ public class WordPath implements Comparable<WordPath>{
         this.word = "";
         this.path = new ArrayList<>();
     }
+
     public WordPath(WordPath wp) {
         this.word = wp.getWord();
         this.path = new ArrayList<>(wp.getPath());
@@ -18,9 +23,11 @@ public class WordPath implements Comparable<WordPath>{
         this.word += die.getActiveLetter();
         path.add(die.getActiveIndex());
     }
+
     public String getWord() {
         return this.word;
     }
+
     public ArrayList<Integer> getPath() {
         return new ArrayList<>(this.path);
     }

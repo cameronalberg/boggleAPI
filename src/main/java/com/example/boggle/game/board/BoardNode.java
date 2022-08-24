@@ -1,3 +1,5 @@
+package com.example.boggle.game.board;
+
 import java.util.ArrayList;
 
 public class BoardNode {

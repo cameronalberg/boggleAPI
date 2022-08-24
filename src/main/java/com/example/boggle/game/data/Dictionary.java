@@ -1,3 +1,5 @@
+package com.example.boggle.game.data;
+
 public interface Dictionary {
     // Returns True if passed string is a valid word
     boolean isWord(String word);

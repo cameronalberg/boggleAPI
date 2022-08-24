@@ -1,3 +1,5 @@
+package com.example.boggle.game.board;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +22,7 @@ public class BoggleDie {
 
     public void rollDie() {
         Random random = new Random(123091823);
-        int index =random.nextInt(6);
+        int index = random.nextInt(6);
         this.activeLetter = letters[index];
         this.clearNeighbors();
     }
@@ -32,9 +34,11 @@ public class BoggleDie {
     public char getActiveLetter() {
         return this.activeLetter;
     }
+
     public int getActiveIndex() {
         return this.activeIndex;
     }
+
     public int getID() {
         return this.ID;
     }

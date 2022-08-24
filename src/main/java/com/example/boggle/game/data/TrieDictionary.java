@@ -1,11 +1,9 @@
-
-import org.sqlite.util.StringUtils;
+package com.example.boggle.game.data;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
-public class TrieDictionary implements Dictionary{
+public class TrieDictionary implements Dictionary {
     private TrieNode root;
     private Set<String> wordSet;
     private int minWordLength;

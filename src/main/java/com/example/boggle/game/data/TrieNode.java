@@ -1,3 +1,5 @@
+package com.example.boggle.game.data;
+
 import java.util.HashMap;
 
 public class TrieNode {

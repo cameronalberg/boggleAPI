@@ -1,8 +1,10 @@
+package com.example.boggle.game.controller;
+
+import com.example.boggle.game.board.BoggleBoard;
+import com.example.boggle.game.data.TrieDictionary;
+
 import java.io.*;
 import java.sql.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.List;
 import java.util.Scanner;
 
 public class BoggleSolver {
@@ -13,7 +15,7 @@ public class BoggleSolver {
         TrieDictionary dictionary;
 
         // Load dictionary file
-        try  {
+        try {
             dictionaryFile = args[0];
             dictionary = populateDictionary(dictionaryFile);
             System.out.println("Loaded provided dictionary: " + dictionaryFile);
@@ -26,9 +28,9 @@ public class BoggleSolver {
         System.out.println("Number of words in dictionary: " + words);
 
         //Get Board Size
-        try  {
+        try {
             boardSize = Integer.parseInt(args[1]);
-            System.out.println("Generating " + boardSize +" x "+ boardSize +
+            System.out.println("Generating " + boardSize + " x " + boardSize +
                     " board");
         } catch (Exception e) {
             System.out.println("Using default board (4x4)");
@@ -47,6 +49,25 @@ public class BoggleSolver {
 
         board.printWords();
 
+    }
+
+    public static String initBoard() throws IOException,
+            ClassNotFoundException, SQLException {
+        String dictionaryFile;
+        int boardSize;
+        TrieDictionary dictionary;
+
+        // Load dictionary file
+            dictionaryFile = "\\data\\dictionary_scrabble.txt";
+            dictionary = populateDictionary(dictionaryFile);
+        int words = dictionary.wordCount();
+
+        //Get Board Size
+            boardSize = 4;
+
+        BoggleBoard board = new BoggleBoard(boardSize);
+        board.shuffleBoard();
+        return board.toString();
     }
 
     public static String getPath(String input) throws IOException {
@@ -93,8 +114,7 @@ public class BoggleSolver {
                 dictionary.addWord(resultSet.getString(1));
             }
             con.close();
-        }
-        else {
+        } else {
             File file = new File(database);
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {

@@ -1,3 +1,9 @@
+package com.example.boggle.game.board;
+
+import com.example.boggle.game.solver.BoggleTraversal;
+import com.example.boggle.game.solver.WordPath;
+import com.example.boggle.game.data.TrieDictionary;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -88,8 +94,8 @@ public class BoggleBoard {
 
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
-                if (inBounds(y+i,x+j)) {
-                    results.add(this.grid[i+y][j+x]);
+                if (inBounds(y + i, x + j)) {
+                    results.add(this.grid[i + y][j + x]);
                 }
             }
         }
@@ -156,7 +162,7 @@ public class BoggleBoard {
         int k = 0;
         for (int i = 0; i < this.boardSize; i++) {
             for (int j = 0; j < this.boardSize; j++) {
-                char letter =  this.getChar(k++);
+                char letter = this.getChar(k++);
                 output += letter;
                 if (letter == 'Q') {
                     output += 'u';
