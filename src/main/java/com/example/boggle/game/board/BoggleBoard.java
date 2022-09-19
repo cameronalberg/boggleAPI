@@ -1,6 +1,6 @@
 package com.example.boggle.game.board;
 
-import com.example.boggle.controller.SolvedBoardResponse;
+import com.example.boggle.api.SolvedBoardResponse;
 import com.example.boggle.game.solver.BoggleTraversal;
 import com.example.boggle.game.solver.WordPath;
 import com.example.boggle.game.data.TrieDictionary;
@@ -165,7 +165,8 @@ public class BoggleBoard {
         this.searcher.traverse();
     }
 
-    public SolvedBoardResponse getSolution() {
+    public SolvedBoardResponse getSolution(TrieDictionary dictionary) {
+        this.search(dictionary);
         List<WordPath> words = this.getFoundWords();
         String time = this.searcher.getLastSearchTime();
         int score = this.searcher.getScore();
