@@ -25,6 +25,7 @@ public class BoggleDie {
         this.ID = id;
         this.letters[0] = letter;
         this.activeLetter = letters[0];
+        this.activeIndex = id;
     }
 
     public void rollDie() {
