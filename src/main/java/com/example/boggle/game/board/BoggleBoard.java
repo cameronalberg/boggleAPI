@@ -1,16 +1,14 @@
 package com.example.boggle.game.board;
 
+import com.example.boggle.controller.SolvedBoardResponse;
 import com.example.boggle.game.solver.BoggleTraversal;
 import com.example.boggle.game.solver.WordPath;
 import com.example.boggle.game.data.TrieDictionary;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class BoggleBoard {
-    private static char[][] diceConfig = {
+    private static final char[][] diceConfig = {
             //NEED TO ADD CONDITION FOR Q LETTER TO ADD U
             {'A', 'E', 'A', 'N', 'E', 'G'},
             {'W', 'N', 'G', 'E', 'E', 'H',},
@@ -29,22 +27,43 @@ public class BoggleBoard {
             {'E', 'I', 'U', 'N', 'E', 'S'},
             {'N', 'U', 'I', 'H', 'M', 'Q'}
     };
-    private int boardSize;
-    private ArrayList<BoggleDie> dice;
-    private int numDice;
-    private int grid[][];
+    private final int boardSize;
+    private final ArrayList<BoggleDie> dice;
+    private final int[][] grid;
     private BoggleTraversal searcher;
 
     public BoggleBoard(int boardSize) {
         this.boardSize = boardSize;
-        this.numDice = boardSize * boardSize;
+        int numDice = boardSize * boardSize;
         this.grid = buildGrid(boardSize);
         this.dice = new ArrayList<>();
-        for (int i = 0; i < this.numDice; i++) {
+        for (int i = 0; i < numDice; i++) {
             BoggleDie die = new BoggleDie(diceConfig[i], i);
             this.dice.add(die);
         }
         this.shuffleBoard();
+    }
+
+    public BoggleBoard(String inputBoard) {
+        this.boardSize = (int) Math.sqrt(inputBoard.length());
+        this.dice = new ArrayList<>();
+        this.grid = buildGrid(boardSize);
+        for (int i = 0; i < inputBoard.length(); i++) {
+            BoggleDie die = new BoggleDie(inputBoard.charAt(i), i);
+            this.dice.add(die);
+        }
+        this.assignNeighbors();
+    }
+
+    public static String validate(String inputBoard) {
+     double size = Math.sqrt(inputBoard.length());
+     if (!(size == (int)size)) {
+         return null;
+     }
+     else if (!(inputBoard.matches("^[a-zA-Z]*$"))) {
+         return null;
+     }
+     return inputBoard.toUpperCase();
     }
 
     public char getChar(int index) {
@@ -58,7 +77,7 @@ public class BoggleBoard {
 
     public void shuffleBoard() {
         this.searcher = null;
-        Collections.shuffle(this.dice, new Random(123091823));
+        Collections.shuffle(this.dice, new Random());
         int i = 0;
         for (BoggleDie die : this.dice) {
             die.rollDie();
@@ -142,11 +161,20 @@ public class BoggleBoard {
         this.searcher.traverse();
     }
 
-    public void printStats() {
-        System.out.println("Time elapsed (ms): " + this.searcher.getLastSearchTime());
-        System.out.println("Words Found: " + this.searcher.numWordsFound());
-        System.out.println("Total Score: " + this.searcher.getScore());
-        System.out.println("");
+    public SolvedBoardResponse getSolution() {
+        List<WordPath> words = this.getFoundWords();
+        String time = this.searcher.getLastSearchTime();
+        int score = this.searcher.getScore();
+        SolvedBoardResponse response = new SolvedBoardResponse(words,
+                this.toString());
+        response.setTime(time);
+        response.setScore(score);
+        return response;
+    }
+
+    public List<WordPath> getFoundWords() {
+        List<WordPath> results = this.searcher.getFoundWords();
+        return results;
     }
 
     public void printWords() {
@@ -156,8 +184,7 @@ public class BoggleBoard {
         }
     }
 
-    @Override
-    public String toString() {
+    public String toFormattedString() {
         String output = "";
         int k = 0;
         for (int i = 0; i < this.boardSize; i++) {
@@ -173,6 +200,25 @@ public class BoggleBoard {
             }
             if (i < this.boardSize - 1) {
                 output += "\n";
+            }
+        }
+        return output;
+    }
+
+    @Override
+    public String toString() {
+        String output = "";
+        int k = 0;
+        for (int i = 0; i < this.boardSize; i++) {
+            for (int j = 0; j < this.boardSize; j++) {
+                char letter = this.getChar(k++);
+                output += letter;
+                if (letter == 'Q') {
+                    output += 'u';
+                }
+                if (!(i == this.boardSize - 1 && j == this.boardSize - 1)) {
+                    output += "-";
+                }
             }
         }
         return output;

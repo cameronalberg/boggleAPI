@@ -19,6 +19,12 @@ public class BoggleDie {
         this.letters = letters;
         this.activeLetter = letters[0];
     }
+    public BoggleDie(char letter, int id) {
+        this.neighbors = new HashSet<>();
+        this.ID = id;
+        this.letters = new char[letter];
+        this.activeLetter = letters[0];
+    }
 
     public void rollDie() {
         Random random = new Random(123091823);
