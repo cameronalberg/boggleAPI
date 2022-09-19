@@ -27,6 +27,7 @@ public class BoggleBoard {
             {'E', 'I', 'U', 'N', 'E', 'S'},
             {'N', 'U', 'I', 'H', 'M', 'Q'}
     };
+    private final static int rawDieCount = 16;
     private final int boardSize;
     private final ArrayList<BoggleDie> dice;
     private final int[][] grid;
@@ -38,7 +39,7 @@ public class BoggleBoard {
         this.grid = buildGrid(boardSize);
         this.dice = new ArrayList<>();
         for (int i = 0; i < numDice; i++) {
-            BoggleDie die = new BoggleDie(diceConfig[i], i);
+            BoggleDie die = new BoggleDie((diceConfig[i % rawDieCount]), i);
             this.dice.add(die);
         }
         this.shuffleBoard();

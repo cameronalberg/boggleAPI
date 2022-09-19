@@ -9,6 +9,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,12 +40,14 @@ public class GameController implements ErrorController, BeanFactoryAware {
 //        // Put found words into JSON response format
 //        return board.getSolution();
 //    }
+
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(path="/solve")
     public ResponseEntity<Object> solveBoard(HttpServletRequest request) {
         String inputBoard = request.getParameter("board");
         String validatedBoard = BoggleBoard.validate(inputBoard);
         if (validatedBoard == null) {
-            return new ResponseEntity<>("invalid board",
+            return new ResponseEntity<>("{\"error\": invalid board}",
                     HttpStatus.BAD_REQUEST);
         }
         BoggleBoard board = new BoggleBoard(inputBoard);
@@ -53,6 +56,29 @@ public class GameController implements ErrorController, BeanFactoryAware {
         // Put found words into JSON response format
         SolvedBoardResponse results = board.getSolution();
         return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "http://localhost:8080")
+    @GetMapping(path="/shuffle")
+    public ResponseEntity<Object> shuffleBoard(HttpServletRequest request) {
+        String sizeString = request.getParameter("boardSize");
+        int size = 4;
+        try {
+            if (sizeString != null) {
+                size = Integer.parseInt(sizeString);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("{\"error\": board size could " +
+                    "not be converted to integer}",
+                    HttpStatus.BAD_REQUEST);
+        }
+        if (size < 3 || size > 6) {
+            return new ResponseEntity<>("{\"error\": board size must be " +
+                    "between 3 and 6}",
+                    HttpStatus.BAD_REQUEST);
+        }
+        BoggleBoard board = new BoggleBoard(size);
+        return new ResponseEntity<>(board.toString(), HttpStatus.OK);
     }
 
     @RequestMapping(path="/error")

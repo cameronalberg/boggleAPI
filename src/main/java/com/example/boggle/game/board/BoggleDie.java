@@ -20,9 +20,10 @@ public class BoggleDie {
         this.activeLetter = letters[0];
     }
     public BoggleDie(char letter, int id) {
+        this.letters = new char[1];
         this.neighbors = new HashSet<>();
         this.ID = id;
-        this.letters = new char[letter];
+        this.letters[0] = letter;
         this.activeLetter = letters[0];
     }
 
