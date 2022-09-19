@@ -11,9 +11,6 @@ import java.util.Scanner;
 public class BoggleDictionary {
 
     private final TrieDictionary dictionary;
-    private final String defaultDatabase = "./data" +
-            "/dictionary" +
-            ".txt";
 
     public BoggleDictionary() {
         this.dictionary = new TrieDictionary();
@@ -25,9 +22,9 @@ public class BoggleDictionary {
         return this.dictionary;
     }
 
-    private TrieDictionary populateDictionary(){
+    private void populateDictionary(){
         String databaseName = System.getenv("database");
-        String database = defaultDatabase;
+        String database = "./data/dictionary.txt";
         if (databaseName == null) {
             databaseName = "dictionary.txt";
             System.out.println("no database set, using default: "
@@ -45,33 +42,17 @@ public class BoggleDictionary {
             }
         }
         try {
-            if (database.contains("db")) {
-                Connection con = loadDictionary(database);
-                if (con.isClosed()) {
-                    System.out.println("database was closed?");
-                }
-                Statement stmt = con.createStatement();
-                String query = "SELECT word FROM words";
-                ResultSet resultSet = stmt.executeQuery(query);
-                while (resultSet.next()) {
-                    this.dictionary.addWord(resultSet.getString(1));
-                }
-                con.close();
-            } else {
                 File file = new File(database);
                 Scanner scanner = new Scanner(file);
                 while (scanner.hasNextLine()) {
                     String word = scanner.nextLine();
                     this.dictionary.addWord(word);
-                }
             }
             System.out.println("loaded dictionary, number of words: "
                     + dictionary.wordCount());
         } catch (Exception s) {
             System.out.println(s.getMessage());
         }
-
-        return dictionary;
     }
 
     private static String getPath(String input) {
