@@ -57,7 +57,10 @@ public class BoggleBoard {
     }
 
     public static String validate(String inputBoard) {
-     double size = Math.sqrt(inputBoard.length());
+    if (inputBoard == null) {
+        return null;
+    }
+    double size = Math.sqrt(inputBoard.length());
      if (!(size == (int)size)) {
          return null;
      }

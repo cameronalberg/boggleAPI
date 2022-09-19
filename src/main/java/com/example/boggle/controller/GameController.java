@@ -2,7 +2,6 @@ package com.example.boggle.controller;
 
 import com.example.boggle.game.board.BoggleBoard;
 import com.example.boggle.game.data.TrieDictionary;
-import com.example.boggle.game.solver.WordPath;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class GameController implements ErrorController, BeanFactoryAware {
@@ -28,18 +25,6 @@ public class GameController implements ErrorController, BeanFactoryAware {
     public String root() {
         return "home";
     }
-
-//    @GetMapping(path="/solve")
-//    public SolvedBoardResponse solveBoard(HttpServletRequest request) {
-//        String inputBoard = request.getParameter("board");
-//
-//        //TODO - take input board as arg for board creation
-//        BoggleBoard board = new BoggleBoard(4);
-//        board.search(dictionary);
-//
-//        // Put found words into JSON response format
-//        return board.getSolution();
-//    }
 
     @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(path="/solve")
@@ -78,7 +63,8 @@ public class GameController implements ErrorController, BeanFactoryAware {
                     HttpStatus.BAD_REQUEST);
         }
         BoggleBoard board = new BoggleBoard(size);
-        return new ResponseEntity<>(board.toString(), HttpStatus.OK);
+        String response = "{\"board\": " + board.toString() + "}";
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(path="/error")
