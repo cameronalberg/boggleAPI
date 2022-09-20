@@ -13,8 +13,6 @@ import java.util.Scanner;
 public class BoggleDictionary {
 
     private final TrieDictionary dictionary;
-    private final String DICT_DEFAULT = "dictionary.txt";
-    private final String PATH_DEFAULT = "src/main/resources/data";
 
     public BoggleDictionary() {
         this.dictionary = new TrieDictionary();
@@ -28,13 +26,16 @@ public class BoggleDictionary {
     @Autowired
     private void populateDictionary(@Value("${database}") String database,
                                     @Value("${database.defaultPath}") String path){
+        final String DICT_DEFAULT = "dictionary.txt";
+        final String PATH_DEFAULT = "src/main/resources/data";
+        final String CUST_PATH_DEFAULT = "/data";
+
         if (database == null || database.equals("default")) {
             database = DICT_DEFAULT;
             path = PATH_DEFAULT;
             System.out.println("no database set, using default");
-        }
-        if (path == null || path.equals("default")) {
-            path = PATH_DEFAULT;
+        } else if (path == null || path.equals("default")) {
+            path = CUST_PATH_DEFAULT;
         }
         String databasePath = getPath(database, path);
         if (!readFile(databasePath, dictionary)) {
