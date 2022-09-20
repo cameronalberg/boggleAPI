@@ -33,7 +33,7 @@ a custom dictionary file. The file can be any text file of words
 If no path is provided, it is expected in a root directory called 
 <code>data</code>.
 </p>
-  <p>Sample dictionaries are available here <a href="https://github.com/cameronalberg/boggle/tree/main/src/main/resources/data">here</a> </p>
+  <p>Sample dictionaries are available <a href="https://github.com/cameronalberg/boggle/tree/main/src/main/resources/data">here</a> </p>
   <p>If Java is installed, the application can be started with the following command: </p>
   <code>java -jar ./{latestReleaseName}.jar</code>
   <p>The application runs on port 8080. If port 8080 is not available, installation via Docker is recommended.</p>

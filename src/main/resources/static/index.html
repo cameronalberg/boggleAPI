@@ -36,8 +36,15 @@
   <h3>JAR File</h3>
   <p><a href="https://www.oracle.com/java/technologies/downloads/#java11">Java 11</a> is required to run this application via a JAR File.</p>
   <p>The latest release of the Boggle Solver API can be downloaded as a .jar package <a href="https://github.com/cameronalberg/boggle/releases">here</a></p>
-  <p>A dictionary .txt file is also required, and must be placed at /data in the directory of the jar file. The dictionary file can be any text file of words (each on a new line), which the application will use when searching a board.</p>
-  <p>Sample dictionaries are available here <a href="https://github.com/cameronalberg/boggle/tree/main/data">here</a> </p>
+  <p>A default dictionary is provided, but a custom one can be taken during
+    application startup. The <code>DATABASE</code> and optional
+    <code>DATABASE_DEFAULTPATH</code> environment variables can be set to define
+    a custom dictionary file. The file can be any text file of words
+    (each on a new line), which the application will use when searching a board.
+    If no path is provided, it is expected in a root directory called
+    <code>data</code>.
+  </p>
+  <p>Sample dictionaries are available <a href="https://github.com/cameronalberg/boggle/tree/main/src/main/resources/data">here</a> </p>
   <p>If Java is installed, the application can be started with the following command: </p>
   <code>java -jar ./{latestReleaseName}.jar</code>
   <p>The application runs on port 8080. If port 8080 is not available, installation via Docker is recommended.</p>
