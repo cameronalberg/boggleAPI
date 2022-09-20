@@ -9,6 +9,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,11 +20,12 @@ public class BoggleAPIController implements ErrorController, BeanFactoryAware {
     private TrieDictionary dictionary;
 
     @GetMapping(path="/solve")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> solveBoard(HttpServletRequest request) {
         String inputBoard = request.getParameter("board");
 
         if (BoggleBoard.validate(inputBoard) == null) {
-            return new ResponseEntity<>("{\"error\": invalid board}",
+            return new ResponseEntity<>("{\"error\": \"invalid board\"}",
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -33,6 +35,7 @@ public class BoggleAPIController implements ErrorController, BeanFactoryAware {
     }
 
     @GetMapping(path="/shuffle")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> shuffleBoard(HttpServletRequest request) {
         String sizeString = request.getParameter("boardSize");
         int size = 4;
@@ -51,7 +54,7 @@ public class BoggleAPIController implements ErrorController, BeanFactoryAware {
                     HttpStatus.BAD_REQUEST);
         }
         BoggleBoard board = new BoggleBoard(size);
-        String response = "{\"board\": " + board + "}";
+        String response = "{\"board\": \"" + board + "\"}";
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

@@ -13,7 +13,8 @@ import java.util.Scanner;
 public class BoggleDictionary {
 
     private final TrieDictionary dictionary;
-    private String database;
+    private final String DICT_DEFAULT = "dictionary.txt";
+    private final String PATH_DEFAULT = "src/main/resources/data";
 
     public BoggleDictionary() {
         this.dictionary = new TrieDictionary();
@@ -25,37 +26,43 @@ public class BoggleDictionary {
     }
 
     @Autowired
-    private void populateDictionary(@Value("${database}") String database){
+    private void populateDictionary(@Value("${database}") String database,
+                                    @Value("${database.defaultPath}") String path){
         if (database == null || database.equals("default")) {
-            database = "dictionary.txt";
+            database = DICT_DEFAULT;
+            path = PATH_DEFAULT;
             System.out.println("no database set, using default");
         }
-        String tempDatabase = getPath(database);
-        File tempFile = new File(tempDatabase);
-        if (tempFile.exists() && !tempFile.isDirectory()) {
-            database = tempDatabase;
+        if (path == null || path.equals("default")) {
+            path = PATH_DEFAULT;
         }
-        else {
-            System.out.println("could not find database " + tempDatabase +
-                    ", using backup");
-            database = "./backup/dictionary.txt";
+        String databasePath = getPath(database, path);
+        if (!readFile(databasePath, dictionary)) {
+            System.out.println("Using backup dictionary");
+            readFile(getPath(DICT_DEFAULT, PATH_DEFAULT), dictionary);
         }
-        try {
-                File file = new File(database);
-                Scanner scanner = new Scanner(file);
-                while (scanner.hasNextLine()) {
-                    String word = scanner.nextLine();
-                    this.dictionary.addWord(word);
-            }
-            System.out.println("loaded dictionary, number of words: "
-                    + dictionary.wordCount());
-        } catch (Exception s) {
-            System.out.println(s.getMessage());
-        }
+        System.out.println("Loaded dictionary, number of words: " + dictionary.wordCount());
     }
 
-    private static String getPath(String input) {
-        return "./data/" + input;
+    private static boolean readFile(String filePath,
+                                    TrieDictionary dictionary) {
+        try {
+            File file = new File(filePath);
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String word = scanner.nextLine();
+                dictionary.addWord(word);
+            }
+        } catch (Exception e) {
+            dictionary.clear();
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private static String getPath(String input, String path) {
+        return "./" + path + "/" + input;
     }
 
     private static Connection loadDictionary(String connectionUrl) throws ClassNotFoundException {

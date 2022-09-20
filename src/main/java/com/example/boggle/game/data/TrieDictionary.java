@@ -10,18 +10,21 @@ import java.util.Set;
 public class TrieDictionary implements Dictionary {
     private TrieNode root;
     private Set<String> wordSet;
-    private int minWordLength;
+    private final int minWordLength;
 
     public TrieDictionary() {
-        this.root = new TrieNode();
-        this.wordSet = new HashSet<>();
         this.minWordLength = 3;
+        this.clear();
     }
 
     public int wordCount() {
         return this.wordSet.size();
     }
 
+    public void clear() {
+        this.root = new TrieNode();
+        this.wordSet = new HashSet<>();
+    }
     @Override
     public void addWord(String input) {
         if (input.length() < minWordLength) {
