@@ -1,17 +1,34 @@
+@import "http://fonts.googleapis.com/css?family=Open Sans:regular,semibold,italic,italicsemibold|Inconsolata&amp;v2";
 .main-container {
     display: flex;
     width: 100%;
     flex-direction: column;
     justify-content: center;
-    margin: 0px auto;
-    padding: 0px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+.section {
+    background: #dddee2;
+    border-radius: 2px;
+    padding: 5px;
+    width: 50%;
+}
+
+.centered {
+    margin: auto;
+    width: 50%;
 }
 
 .title {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 50px;
-    margin: 0px auto;
+    margin: 0 auto;
     text-align: center;
 }
 .descriptor {
@@ -29,79 +46,4 @@
     display: flex;
     margin: auto;
     text-align: center;
-}
-.button {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    font-size: 15px;
-    margin: 0px auto;
-    justify-items: right;
-}
-.board-container {
-    gap: 10px;
-    background-color: #244cdd;
-    padding: 10px;
-    width: 350px;
-    height: 350px;
-    justify-content: center;
-    display: grid;
-    align-items: center;
-    margin: 0px auto;
-    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-    row-gap: 10px;
-    column-gap: 10px;
-    border-radius: 5px;
-  }
-  
-  .tile {
-    background-color: rgb(240, 240, 240);
-    aspect-ratio: 1;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    border: 2px;
-    display: inline-flex;
-    font-size: 5em;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    color: #244cdd;
-    border-radius: 5px;
-  }
-
-  .tile:hover {
-    animation-name: zoom;
-    animation-duration: 500ms;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-out; 
-    animation-fill-mode: forwards;
-    cursor: pointer;
-  }
-
-  .tile.spin {
-    animation-name: spin;
-    animation-duration: 1000ms;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in; 
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes zoom {
-    from {
-        transform:scale(1);
-    }
-    to {
-      transform:scale(1.05);
-    }
-}
-  
-@keyframes spin {
-    0% {
-        transform:rotate(0deg) scale(1);
-    }
-    50% {
-        transform:rotate(360deg) scale(0.1);
-    }
-    100% {
-      transform:rotate(0deg) scale(1);
-    }
 }

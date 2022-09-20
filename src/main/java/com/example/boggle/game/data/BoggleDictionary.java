@@ -1,5 +1,7 @@
 package com.example.boggle.game.data;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -11,10 +13,10 @@ import java.util.Scanner;
 public class BoggleDictionary {
 
     private final TrieDictionary dictionary;
+    private String database;
 
     public BoggleDictionary() {
         this.dictionary = new TrieDictionary();
-        populateDictionary();
     }
 
     @Bean
@@ -22,24 +24,21 @@ public class BoggleDictionary {
         return this.dictionary;
     }
 
-    private void populateDictionary(){
-        String databaseName = System.getenv("database");
-        String database = "./data/dictionary.txt";
-        if (databaseName == null) {
-            databaseName = "dictionary.txt";
-            System.out.println("no database set, using default: "
-                                + databaseName);
+    @Autowired
+    private void populateDictionary(@Value("${database}") String database){
+        if (database == null || database.equals("default")) {
+            database = "dictionary.txt";
+            System.out.println("no database set, using default");
+        }
+        String tempDatabase = getPath(database);
+        File tempFile = new File(tempDatabase);
+        if (tempFile.exists() && !tempFile.isDirectory()) {
+            database = tempDatabase;
         }
         else {
-            String tempDatabase = getPath(databaseName);
-            File file = new File(tempDatabase);
-            if (file.exists() && !file.isDirectory()) {
-                database = tempDatabase;
-            }
-            else {
-                System.out.println("could not find database " + tempDatabase +
-                        ", using default: "+ databaseName);
-            }
+            System.out.println("could not find database " + tempDatabase +
+                    ", using backup");
+            database = "./backup/dictionary.txt";
         }
         try {
                 File file = new File(database);

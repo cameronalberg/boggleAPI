@@ -4,5 +4,6 @@ RUN adduser --system spring --gecos spring
 USER spring:spring
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-COPY ./data/dictionary.txt ./data/dictionary.txt
+COPY ./data/dictionary.txt ./backup/dictionary.txt
+ENV DATABASE=default
 ENTRYPOINT ["java","-jar","/app.jar"]

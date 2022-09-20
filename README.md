@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css" type="text/css">
-  <link rel="shortcut icon" type="image/png" th:href="@{favicon.png}"/>
-  <title>Boggle Solver API ReadME</title>
-</head>
-<body>
 <h1> Boggle Solver API</h1>
 <h4> developed by Cameron Alberg</h4>
 <h4><a href="https://github.com/cameronalberg/boggle">Source Code</a></h4>
@@ -52,7 +41,3 @@
   <code>docker run -p {host_port}:8080 -v {dictionaryFileDirectory}:./data -e DATABASE={txtFileName} calberg/boggle-spring-docker</code>
   <p><code>dictionaryFileDirectory</code> is a folder on the host machine where your {txtFileName} dictionary file exists.</p>
 </div>
-</body>
-<hr />
-<p>Cameron Alberg 2022</p>
-</html>

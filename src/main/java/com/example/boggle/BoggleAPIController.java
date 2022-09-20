@@ -6,33 +6,17 @@ import com.example.boggle.game.data.TrieDictionary;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.sql.SQLException;
 
-@SpringBootApplication
 @RestController
-public class BoggleAppController implements ErrorController, BeanFactoryAware {
+public class BoggleAPIController implements ErrorController, BeanFactoryAware {
     private TrieDictionary dictionary;
-
-    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
-        SpringApplication.run(BoggleAppController.class, args);
-
-    }
-
-    @RequestMapping(path="/")
-    public String root() {
-        return "home";
-    }
 
     @GetMapping(path="/solve")
     public ResponseEntity<Object> solveBoard(HttpServletRequest request) {
@@ -69,12 +53,6 @@ public class BoggleAppController implements ErrorController, BeanFactoryAware {
         BoggleBoard board = new BoggleBoard(size);
         String response = "{\"board\": " + board + "}";
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @RequestMapping(path="/error")
-    public String displayError() throws SQLException, IOException,
-            ClassNotFoundException {
-        return "404 Not Found";
     }
 
     @Override
