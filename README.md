@@ -1,6 +1,5 @@
 <h1> Boggle Solver API</h1>
 <h4> developed by Cameron Alberg</h4>
-<h4><a href="https://github.com/cameronalberg/boggle">Source Code</a></h4>
 <h2><u>Intro</u></h2>
 <div class="section">
   <p>Boggle Solver is a REST app that can solve any provided Boggle board (3x3 up to 6x6),
