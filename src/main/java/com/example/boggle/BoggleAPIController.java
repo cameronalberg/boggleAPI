@@ -20,7 +20,7 @@ public class BoggleAPIController implements ErrorController, BeanFactoryAware {
     private TrieDictionary dictionary;
 
     @GetMapping(path="/solve")
-    @CrossOrigin()
+    @CrossOrigin
     public ResponseEntity<Object> solveBoard(HttpServletRequest request) {
         String inputBoard = request.getParameter("board");
 
@@ -35,7 +35,7 @@ public class BoggleAPIController implements ErrorController, BeanFactoryAware {
     }
 
     @GetMapping(path="/shuffle")
-    @CrossOrigin()
+    @CrossOrigin
     public ResponseEntity<Object> shuffleBoard(HttpServletRequest request) {
         String sizeString = request.getParameter("boardSize");
         int size = 4;
