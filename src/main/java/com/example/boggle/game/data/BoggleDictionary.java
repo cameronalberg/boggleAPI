@@ -23,8 +23,16 @@ public class BoggleDictionary {
         return this.dictionary;
     }
 
+    public boolean isWord(String word) {
+        return this.dictionary.isWord(word);
+    }
+
+    public boolean incompleteWord(String word) {
+        return this.dictionary.incompleteWord(word);
+    }
+
     @Autowired
-    private void populateDictionary(@Value("${database}") String database,
+    public void populateDictionary(@Value("${database}") String database,
                                     @Value("${database.defaultPath}") String path){
         final String DICT_DEFAULT = "dictionary.txt";
         final String PATH_DEFAULT = "src/main/resources/data";

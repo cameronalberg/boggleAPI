@@ -1,6 +1,5 @@
 package com.example.boggle.game.data;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -31,7 +30,7 @@ public class TrieDictionary implements Dictionary {
             return;
         }
 
-        if (!input.matches("[a-zA-Z]+")) {
+        if (!input.matches("^[a-zA-Z]*$")) {
             return;
         }
         String word = input.toLowerCase();
@@ -51,22 +50,16 @@ public class TrieDictionary implements Dictionary {
         this.wordSet.add(word);
     }
 
-    private static String convertToLowerCase(String word) {
-        String converted = word;
-        converted = converted.toLowerCase();
-        return converted;
-    }
-
     @Override
     public boolean isWord(String word) {
-        String converted = convertToLowerCase(word);
+        String converted = word.toLowerCase();
 
         return this.wordSet.contains(converted);
     }
 
     @Override
     public boolean incompleteWord(String word) {
-        String converted = convertToLowerCase(word);
+        String converted = word.toLowerCase();
         TrieNode current = root;
         int length = converted.length();
 
