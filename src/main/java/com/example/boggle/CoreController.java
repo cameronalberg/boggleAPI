@@ -31,9 +31,9 @@ public class CoreController {
                 "https://boggle-demo.calberg.me")).build();
     }
 
-    @RequestMapping(path="/error")
-    public String displayError() {
-        return "404.html";
-    }
+//    @RequestMapping(path="/error")
+//    public String displayError() {
+//        return "404.html";
+//    }
 
 }

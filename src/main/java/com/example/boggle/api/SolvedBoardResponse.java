@@ -2,10 +2,12 @@ package com.example.boggle.api;
 
 import com.example.boggle.game.solver.WordPath;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SolvedBoardResponse {
+
     String board;
     int numWordsFound;
     int score;
