@@ -1,19 +1,21 @@
-package com.example.boggle.api;
+package com.example.boggle.response;
 
 import com.example.boggle.game.solver.WordPath;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SolvedBoardResponse {
-
     String board;
-    int numWordsFound;
     int score;
-    String time;
     List<WordPath> words;
 
+    @JsonProperty("words_found")
+    int numWordsFound;
+
+    @JsonProperty("search_time")
+    String time;
 
     public SolvedBoardResponse(List<WordPath> words, String board) {
         this.words = words;
