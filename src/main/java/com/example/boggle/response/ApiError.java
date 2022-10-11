@@ -1,8 +1,6 @@
 package com.example.boggle.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 public class ApiError {
 

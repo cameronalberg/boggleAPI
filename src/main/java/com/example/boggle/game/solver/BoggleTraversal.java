@@ -9,9 +9,9 @@ import java.text.NumberFormat;
 import java.util.*;
 
 public class BoggleTraversal {
-    private TrieDictionary dictionary;
-    private Set<WordPath> foundWords;
-    private BoggleBoard board;
+    private final TrieDictionary dictionary;
+    private final Set<WordPath> foundWords;
+    private final BoggleBoard board;
     private int score;
     private long lastSearchTime;
 

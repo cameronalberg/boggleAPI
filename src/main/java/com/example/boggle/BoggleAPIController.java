@@ -22,18 +22,20 @@ import org.springframework.web.bind.annotation.*;
 public class BoggleAPIController implements BeanFactoryAware {
     private TrieDictionary dictionary;
 
-    @Operation(summary= "Find all possible words in a provided board.")
+    @Operation(summary = "Find all possible words in a provided board.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Success!",
-                content = { @Content(mediaType = "application/json",
-                        schema = @Schema(implementation = SolvedBoardResponse.class)) }),
-        @ApiResponse(responseCode = "400", description = "Invalid board.",
-                content = @Content)})
-    @GetMapping(path="/solve")
+            @ApiResponse(responseCode = "200", description = "Success!",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SolvedBoardResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid board.",
+                    content = @Content)})
+    @GetMapping(path = "/solve")
     @CrossOrigin
-    public ResponseEntity<Object> solveBoard(@RequestParam @Parameter(name="inputBoard",
-            description = "string representation of board characters",
-            example="\"EILATPAGRETOHTAY\"") String board) {
+    public ResponseEntity<Object> solveBoard(
+            @RequestParam @Parameter(name = "inputBoard",
+                    description = "string representation of board characters",
+                    example = "\"EILATPAGRETOHTAY\"") String board
+    ) {
 
         if (BoggleBoard.validate(board) == null) {
             ApiError error = new ApiError("invalid board");
@@ -45,19 +47,21 @@ public class BoggleAPIController implements BeanFactoryAware {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary= "Get a new board.")
+    @Operation(summary = "Get a new board.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returned a valid board.",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = String.class)) }),
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = String.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid request parameters.",
                     content = @Content)})
-    @GetMapping(path="/shuffle")
+    @GetMapping(path = "/shuffle")
     @CrossOrigin
-    public ResponseEntity<Object> shuffleBoard(@RequestParam(required = false) @Parameter(name=
-            "boardSize",
-            description = "board dimension size",
-            example="4") Integer size) {
+    public ResponseEntity<Object> shuffleBoard(
+            @RequestParam(required = false)
+            @Parameter(name = "boardSize",
+                    description = "board dimension size",
+                    example = "4") Integer size) {
+
         if (size == null) {
             size = 4;
         }

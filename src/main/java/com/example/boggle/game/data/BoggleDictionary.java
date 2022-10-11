@@ -38,11 +38,11 @@ public class BoggleDictionary {
         final String PATH_DEFAULT = "src/main/resources/data";
         final String CUST_PATH_DEFAULT = "/data";
 
-        if (database == null || database.equals("default")) {
+        if (database == null || database.isEmpty() || database.equals("default")) {
             database = DICT_DEFAULT;
             path = PATH_DEFAULT;
             System.out.println("no database set, using default");
-        } else if (path == null || path.equals("default")) {
+        } else if (path == null || path.isEmpty() || path.equals("default")) {
             path = CUST_PATH_DEFAULT;
         }
         String databasePath = getPath(database, path);

@@ -57,17 +57,16 @@ public class BoggleBoard {
     }
 
     public static String validate(String inputBoard) {
-    if (inputBoard == null || inputBoard.isBlank()) {
-        return null;
-    }
-    double size = Math.sqrt(inputBoard.length());
-     if (!(size == (int)size)) {
-         return null;
-     }
-     else if (!(inputBoard.matches("^[a-zA-Z]*$"))) {
-         return null;
-     }
-     return inputBoard.toUpperCase();
+        if (inputBoard == null || inputBoard.isBlank()) {
+            return null;
+        }
+        double size = Math.sqrt(inputBoard.length());
+        if (!(size == (int) size)) {
+            return null;
+        } else if (!(inputBoard.matches("^[a-zA-Z]*$"))) {
+            return null;
+        }
+        return inputBoard.toUpperCase();
     }
 
     public char getChar(int index) {

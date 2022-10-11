@@ -8,37 +8,58 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class BoggleDictionaryTests {
-    BoggleDictionary dictionary;
+    final String DICT_DEFAULT = "dictionary.txt";
+    final String PATH_DEFAULT = "src/main/resources/data";
+    BoggleDictionary defaultDictionary;
 
     @BeforeEach
     public void setup() {
-        dictionary = new BoggleDictionary();
-        dictionary.populateDictionary("dictionary_large.txt", "src/main" +
-                "/resources" +
-                "/data");
+        defaultDictionary = new BoggleDictionary();
+        defaultDictionary.populateDictionary(DICT_DEFAULT, PATH_DEFAULT);
+    }
+
+    @Test
+    void checkEmptyDictionary() {
+        BoggleDictionary emptyDictionary = new BoggleDictionary();
+        Assertions.assertFalse(emptyDictionary.isWord("test"));
+    }
+
+    @Test
+    void noParameterDictionary() {
+        BoggleDictionary noParamDictionary = new BoggleDictionary();
+        noParamDictionary.populateDictionary("", "");
+        Assertions.assertTrue(noParamDictionary.isWord("test"));
+        Assertions.assertTrue(noParamDictionary.incompleteWord("test"));
+    }
+
+    @Test
+    void invalidDictionaryUsesDefault() {
+        BoggleDictionary invalidDictionary = new BoggleDictionary();
+        invalidDictionary.populateDictionary("bad.txt", "");
+        Assertions.assertTrue(invalidDictionary.isWord("test"));
+        Assertions.assertTrue(invalidDictionary.incompleteWord("test"));
     }
 
     @Test
     void checkForWord1() {
-        Assertions.assertTrue(dictionary.isWord("sin"));
-        Assertions.assertTrue(dictionary.incompleteWord("sin"));
+        Assertions.assertTrue(defaultDictionary.isWord("sin"));
+        Assertions.assertTrue(defaultDictionary.incompleteWord("sin"));
     }
 
     @Test
     void checkForPlurals() {
-        Assertions.assertTrue(dictionary.isWord("umbrella"));
-        Assertions.assertTrue(dictionary.incompleteWord("umbrella"));
-        Assertions.assertTrue(dictionary.isWord("umbrellas"));
+        Assertions.assertTrue(defaultDictionary.isWord("umbrella"));
+        Assertions.assertTrue(defaultDictionary.incompleteWord("umbrella"));
+        Assertions.assertTrue(defaultDictionary.isWord("umbrellas"));
     }
-
 
     @Test
     void checkInvalidWordsDoNotExist() {
-        Assertions.assertFalse(dictionary.isWord("as"));
-        Assertions.assertFalse(dictionary.isWord("23"));
-        Assertions.assertFalse(dictionary.isWord("23"));
-        Assertions.assertFalse(dictionary.isWord(""));
-        Assertions.assertFalse(dictionary.isWord("raxy"));
+        Assertions.assertFalse(defaultDictionary.isWord("as"));
+        Assertions.assertFalse(defaultDictionary.isWord("23"));
+        Assertions.assertFalse(defaultDictionary.isWord("23"));
+        Assertions.assertFalse(defaultDictionary.isWord(""));
+        Assertions.assertFalse(defaultDictionary.isWord("raxy"));
     }
 
 }

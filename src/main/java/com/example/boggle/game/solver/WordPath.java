@@ -20,7 +20,12 @@ public class WordPath implements Comparable<WordPath> {
     }
 
     public void addToPath(BoggleDie die) {
-        this.word += die.getActiveLetter();
+        char letter = die.getActiveLetter();
+        this.word += letter;
+        if (letter == 'Q') {
+            this.word += 'U';
+        }
+
         path.add(die.getActiveIndex());
     }
 
