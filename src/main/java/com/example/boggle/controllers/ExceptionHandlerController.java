@@ -2,6 +2,7 @@ package com.example.boggle.controllers;
 
 
 import com.example.boggle.response.ApiError;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class ExceptionHandlerController implements ErrorController {
 
+    @Hidden
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @GetMapping("/error")
     ResponseEntity<Object> handleNotFoundException() {

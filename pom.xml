@@ -11,7 +11,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>boggle</artifactId>
-    <version>1.1.1</version>
+    <version>2.0.0</version>
     <name>boggle</name>
     <description>boggle</description>
     <properties>
