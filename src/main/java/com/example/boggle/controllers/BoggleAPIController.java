@@ -1,16 +1,18 @@
-package com.example.boggle;
+package com.example.boggle.controllers;
 
 import com.example.boggle.response.ApiError;
 import com.example.boggle.response.GeneratedBoardResponse;
 import com.example.boggle.response.SolvedBoardResponse;
 import com.example.boggle.game.board.BoggleBoard;
 import com.example.boggle.game.data.TrieDictionary;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -24,17 +26,18 @@ public class BoggleAPIController implements BeanFactoryAware {
 
     @Operation(summary = "Find all possible words in a provided board.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success!",
+            @ApiResponse(responseCode = "200", description = "Search results returned.",
                     content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = SolvedBoardResponse.class))}),
+                    schema = @Schema(implementation = SolvedBoardResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid board.",
-                    content = @Content)})
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))})})
     @GetMapping(path = "/solve")
     @CrossOrigin
     public ResponseEntity<Object> solveBoard(
-            @RequestParam @Parameter(name = "inputBoard",
+            @RequestParam @Parameter(name = "board",
                     description = "string representation of board characters",
-                    example = "\"EILATPAGRETOHTAY\"") String board
+                    example = "\"UETB\"") String board
     ) {
 
         if (BoggleBoard.validate(board) == null) {
@@ -52,13 +55,14 @@ public class BoggleAPIController implements BeanFactoryAware {
             @ApiResponse(responseCode = "200", description = "Returned a valid board.",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = String.class))}),
-            @ApiResponse(responseCode = "400", description = "Invalid request parameters.",
-                    content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Invalid board.",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))})})
     @GetMapping(path = "/shuffle")
     @CrossOrigin
     public ResponseEntity<Object> shuffleBoard(
             @RequestParam(required = false)
-            @Parameter(name = "boardSize",
+            @Parameter(name = "size",
                     description = "board dimension size",
                     example = "4") Integer size) {
 

@@ -2,19 +2,28 @@ package com.example.boggle.response;
 
 import com.example.boggle.game.solver.WordPath;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SolvedBoardResponse {
+
+    @Schema(example = "u-e-t-b")
     String board;
+
+    @Schema(example = "1")
     int score;
+
+    @Schema(example = "[{\"word\": \"vet\",\"path\":[3,1,2]}]")
     List<WordPath> words;
 
     @JsonProperty("words_found")
+    @Schema(example = "1")
     int numWordsFound;
 
     @JsonProperty("search_time")
+    @Schema(example = "0.05")
     String time;
 
     public SolvedBoardResponse(List<WordPath> words, String board) {
